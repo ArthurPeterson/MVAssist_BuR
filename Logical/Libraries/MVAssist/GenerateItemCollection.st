@@ -1,26 +1,24 @@
 
-(* This FUB builds a string array in the ItemCollection format for mappView widgets such as ListBox or DropDownBox. The required data inputs are value and text. 
-Text is the string displayed on the mappView widget and value is the data assigned when a given text is selected. *)
+(* This FUB builds a string  in the ItemCollection format for mappView widgets such as ListBox or DropDownBox. The required data inputs are value and text. 
+key is the string displayed on the mappView widget and value is the data assigned when a given text is selected. *)
 
 FUNCTION_BLOCK GenerateItemCollection
 	
 	IF enable THEN
-		FOR i := 0 TO elements DO
 			//Sets the first portion of the DataProvider String {"value":"
-			DataProvider[i] := '{"value":"';
+			keyValuePair := '{"value":"';
 			
 			//Concatenates the value input onto the first portion of the DataProvider string
-			brsstrcat(ADR(DataProvider[i]), ADR(value[i]));
+			brsstrcat(ADR(keyValuePair), ADR(value));
 			
 			//Concatenates the string ","text":" to the end of the DataProvider string
-			brsstrcat(ADR(DataProvider[i]), ADR('","text":"'));
+			brsstrcat(ADR(keyValuePair), ADR('","text":"'));
 		
 			//Concatenates the text FUB input onto the first portion of the DataProvider string
-			brsstrcat(ADR(DataProvider[i]), ADR(text[i]));
+			brsstrcat(ADR(keyValuePair), ADR(key));
 			
 			//Concatenate the string '"}' to the end of the DataProvider string
-			brsstrcat(ADR(DataProvider[i]), ADR('"}'));
-		END_FOR;
+			brsstrcat(ADR(keyValuePair), ADR('"}'));
 	END_IF;
 	
 		
