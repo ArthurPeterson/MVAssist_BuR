@@ -5,4 +5,8 @@
   <TaskClass Name="Cyclic#2" />
   <TaskClass Name="Cyclic#3" />
   <TaskClass Name="Cyclic#4" />
+  <Libraries>
+    <LibraryObject Name="MVAssist" Source="Libraries.MVAssist.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="AsBrStr" Source="Libraries.AsBrStr.lby" Memory="UserROM" Language="binary" Debugging="true" />
+  </Libraries>
 </SwConfiguration>

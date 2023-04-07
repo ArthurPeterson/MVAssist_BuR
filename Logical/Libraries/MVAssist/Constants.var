@@ -1,0 +1,3 @@
+VAR CONSTANT
+	elements : USINT := 2; (*Number of array elements the item collection will have*)
+END_VAR
