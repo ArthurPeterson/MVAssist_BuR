@@ -10,21 +10,21 @@ The project is configured for a mappView visualization. The default address for 
 ## Function blocks:
 
 ###  **GenerateItemCollection**
-*Description:*  
+#### *Description:*  
 This function block generates a key/value pair in the itemCollection format.  
 ItemCollection is a data type that expects an array of strings in a specific text format. Each array element has two sub-elments, a key and a value. The key is the text that is displayed by the widget, and the value is the value the widget takes when that element is selected.This format is used to populate several mappView widgets including DropDownBox. 
 
-*Interface:*  
-| I/O      | Parameter | Data Type | Description |
-| -----------  | ----------- | ----------- | ----------- |
-| IN  | enable | BOOL        | The function block is active as long as this input is set|
-| IN  | key    | STRING[80]  | Text displayed in end widget |
-| IN  | value  | STRING[80]  | selectedValue in end widget |
-| OUT | keyValuePair | STRING[255] | Key/Value pair in ItemCollection format |
+#### *Interface:*  
+| NAME          | I/O | Data Type   | Description |
+| ------------- | --- | ----------- | ----------- |
+| enable        | IN  | BOOL        | The function block is active as long as this input is set|
+| pKey          | IN  | UDINT       | Text displayed in end widget. Given as pointer to STRING[35] |
+| pValue        | IN  | UDINT       | Selected value in end widget. Given as pointer to STRING[35] |
+| status        | OUT | UINT        | Displays status of the function block state machine |
+| keyValuePair  | OUT | STRING[100] | Key/Value pair in ItemCollection format |
 
-*Intended Use:*  
+
+#### *Intended Use:*  
 This function block is intended to be used within a for loop to populate each element of a dataProvider array. The dataProvider array is then bound to the dataProvider property in the desired widget. It will then populate the wiget elements based on the number of array elements in the dataProvider array.
-
-
 
 

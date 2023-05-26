@@ -1,3 +1,10 @@
+(*=========== GenerateItemCollection Constants =========== *)
+(*GenItemColl is short for Generate Item Collection*)
 VAR CONSTANT
-	elements : USINT := 2; (*Number of array elements the item collection will have*)
+	GenItemColl_DEFAULT_STR_SIZE : STRING[35] := ''; (*Size of of this variable is the size of the default string input to the fubs*)
+	GenItemColl_STR_INIT : STRING[10] := '{"value":';
+	GenItemColl_STR_MIDDLE : STRING[10] := ',"text":';
+	GenItemColl_STR_END : STRING[5] := '}';
+	GenItemColl_ERR_VALUE : UINT := 35901; (*The value FUB input is invalid*)
+	GenItemColl_ERR_KEY : UINT := 35900; (*The key FUB input is invalid*)
 END_VAR
