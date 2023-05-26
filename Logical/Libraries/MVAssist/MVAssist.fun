@@ -4,6 +4,7 @@
 		enable : BOOL;
 		pKey : UDINT; (*Given as a pointer to a string[35]*)
 		pValue : UDINT; (*Given as a pointer to a string[35]*)
+		configuration : UDINT; (*Sets the operation mode of the FUB*)
 	END_VAR
 	VAR_OUTPUT
 		status : UINT; (*Holds the status of the FUB*)

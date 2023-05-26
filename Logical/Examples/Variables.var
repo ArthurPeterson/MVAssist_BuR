@@ -4,5 +4,5 @@ VAR
 	values : ARRAY[0..2] OF STRING[35] := ['Value 0','Value 1','Value 2'];
 	GenerateItemCollection_0 : GenerateItemCollection;
 	i : USINT := 0;
-	test : BOOL;
+	mode : USINT := 0; (*0 = Continuous, 1 = Halting*)
 END_VAR

@@ -53,9 +53,14 @@ FUNCTION_BLOCK GenerateItemCollection
 			//Concatenate the ending string to the end of the DataProvider string
 			brsstrcat(ADR(keyValuePair), ADR(GenItemColl_STR_END));
 			
+			//Move to done state once completed (if halting mode is set)
+			IF (configuration = GenItemColl_PARAM_HALTING) THEN
+				state := GenItemColl_STATE_DONE;
+			END_IF;
 			
-			//Move to done state once completed
-			state := GenItemColl_STATE_DONE;
+			IF NOT enable THEN
+				state := GenItemColl_STATE_WAIT;
+			END_IF;
 		
 		//State the fub goes into when it has completed successfully
 		GenItemColl_STATE_DONE:
@@ -63,6 +68,7 @@ FUNCTION_BLOCK GenerateItemCollection
 			//Set status to no error - Value = 0
 			status := ERR_OK;
 			
+			//Halting mode - Waits for enable to fall before going back to wait state
 			IF NOT enable THEN
 				state := GenItemColl_STATE_WAIT;
 			END_IF;

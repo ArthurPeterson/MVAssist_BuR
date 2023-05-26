@@ -5,6 +5,8 @@ VAR CONSTANT
 	GenItemColl_STR_INIT : STRING[10] := '{"value":';
 	GenItemColl_STR_MIDDLE : STRING[10] := ',"text":';
 	GenItemColl_STR_END : STRING[5] := '}';
+	GenItemColl_PARAM_CONTINUOUS : UINT := 0; (*Sets the FUB to continuous operation mode (default)*)
+	GenItemColl_PARAM_HALTING : UINT := 1; (*Sets the FUB to instance oeperation mode*)
 	GenItemColl_ERR_VALUE : UINT := 35901; (*The value FUB input is invalid*)
 	GenItemColl_ERR_KEY : UINT := 35900; (*The key FUB input is invalid*)
 END_VAR

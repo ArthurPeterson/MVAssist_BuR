@@ -20,11 +20,14 @@ ItemCollection is a data type that expects an array of strings in a specific tex
 | enable        | IN  | BOOL        | The function block is active as long as this input is set|
 | pKey          | IN  | UDINT       | Text displayed in end widget. Given as pointer to STRING[35] |
 | pValue        | IN  | UDINT       | Selected value in end widget. Given as pointer to STRING[35] |
+| configuration | IN  | UDINT       | Set the operation mode of the FUB |
 | status        | OUT | UINT        | Displays status of the function block state machine |
 | keyValuePair  | OUT | STRING[100] | Key/Value pair in ItemCollection format |
 
 
-#### *Intended Use:*  
-This function block is intended to be used within a for loop to populate each element of a dataProvider array. The dataProvider array is then bound to the dataProvider property in the desired widget. It will then populate the wiget elements based on the number of array elements in the dataProvider array.
+#### *Intended Use: Continuous Mode*  
+Continuous is intended to be used iteratively to populate each element of a DataProvider array. Each element of a DataProvider array is a string with specific formatting requirements between the key/value pair. in continuous mode, the GenerateItemCollection FUB must be called once for every element of the DataProvider array. Continuous mode will continuously write the updated itemCollection string to its DataProvider output and indicate status ERR_FUB_BUSY (65535).
 
+#### *Intended Use: Halting Mode*  
+Halting mode is intended to be used to overwrite single elements of DataProvider arrays. Halting mode will not continuously write to the DataProvider output. It will write once, then set the status to ERR_OK (0). The enable input must then be cycled from 1 to 0, then 0 to 1 to write another value to the DataProvider output.
 
