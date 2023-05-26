@@ -10,7 +10,7 @@
   <DefaultView>
     <Module Name="&lt;Default&gt;">
       <Task Name="Default" />
-      <Task Name="ItemColl">
+      <Task Name="Examples">
         <Variable Name="DataProvider" />
       </Task>
     </Module>
