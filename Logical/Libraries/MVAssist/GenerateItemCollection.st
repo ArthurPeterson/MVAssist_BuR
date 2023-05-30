@@ -20,6 +20,12 @@ FUNCTION_BLOCK GenerateItemCollection
 //	END_IF;
 //	
 	
+	IF NOT((configuration = GenItemColl_PARAM_CONTINUOUS) OR (configuration = GenItemColl_PARAM_HALTING)) THEN
+		status 	:=  GenItemColl_ERR_MODE;
+		state 	:= GenItemColl_STATE_ERROR;
+	END_IF;
+			
+	
 	////=========== Main state machine ===========\\
 	CASE state OF
 		GenItemColl_STATE_WAIT:
@@ -58,30 +64,34 @@ FUNCTION_BLOCK GenerateItemCollection
 				state := GenItemColl_STATE_DONE;
 			END_IF;
 			
+			//If Fub is disabled, hold in the wait state
 			IF NOT enable THEN
 				state := GenItemColl_STATE_WAIT;
 			END_IF;
+
 		
 		//State the fub goes into when it has completed successfully
 		GenItemColl_STATE_DONE:
 		  
 			//Set status to no error - Value = 0
 			status := ERR_OK;
-			
-			//Halting mode - Waits for enable to fall before going back to wait state
+
+			//If Fub is disabled, hold in the wait state
 			IF NOT enable THEN
 				state := GenItemColl_STATE_WAIT;
 			END_IF;
 
 		//State the FUB goes into when there is an error
 		GenItemColl_STATE_ERROR:
+	
+			//If Fub is disabled, hold in the wait state
 			IF NOT enable THEN
 				state := GenItemColl_STATE_WAIT;
 			END_IF;
-			
 
 	END_CASE;
 	
+
 		
 END_FUNCTION_BLOCK
 
