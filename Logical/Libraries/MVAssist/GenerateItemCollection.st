@@ -20,6 +20,12 @@ FUNCTION_BLOCK GenerateItemCollection
 //	END_IF;
 //	
 	
+	IF NOT((configuration = GenItemColl_PARAM_CONTINUOUS) OR (configuration = GenItemColl_PARAM_HALTING)) THEN
+		status 	:=  GenItemColl_ERR_MODE;
+		state 	:= GenItemColl_STATE_ERROR;
+	END_IF;
+			
+	
 	////=========== Main state machine ===========\\
 	CASE state OF
 		GenItemColl_STATE_WAIT:
@@ -53,29 +59,39 @@ FUNCTION_BLOCK GenerateItemCollection
 			//Concatenate the ending string to the end of the DataProvider string
 			brsstrcat(ADR(keyValuePair), ADR(GenItemColl_STR_END));
 			
+			//Move to done state once completed (if halting mode is set)
+			IF (configuration = GenItemColl_PARAM_HALTING) THEN
+				state := GenItemColl_STATE_DONE;
+			END_IF;
 			
-			//Move to done state once completed
-			state := GenItemColl_STATE_DONE;
+			//If Fub is disabled, hold in the wait state
+			IF NOT enable THEN
+				state := GenItemColl_STATE_WAIT;
+			END_IF;
+
 		
 		//State the fub goes into when it has completed successfully
 		GenItemColl_STATE_DONE:
 		  
 			//Set status to no error - Value = 0
 			status := ERR_OK;
-			
+
+			//If Fub is disabled, hold in the wait state
 			IF NOT enable THEN
 				state := GenItemColl_STATE_WAIT;
 			END_IF;
 
 		//State the FUB goes into when there is an error
 		GenItemColl_STATE_ERROR:
+	
+			//If Fub is disabled, hold in the wait state
 			IF NOT enable THEN
 				state := GenItemColl_STATE_WAIT;
 			END_IF;
-			
 
 	END_CASE;
 	
+
 		
 END_FUNCTION_BLOCK
 

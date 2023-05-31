@@ -1,10 +1,12 @@
 (*=========== GenerateItemCollection Constants =========== *)
 (*GenItemColl is short for Generate Item Collection*)
 VAR CONSTANT
-	GenItemColl_DEFAULT_STR_SIZE : STRING[35] := ''; (*Size of of this variable is the size of the default string input to the fubs*)
-	GenItemColl_STR_INIT : STRING[10] := '{"value":';
-	GenItemColl_STR_MIDDLE : STRING[10] := ',"text":';
-	GenItemColl_STR_END : STRING[5] := '}';
-	GenItemColl_ERR_VALUE : UINT := 35901; (*The value FUB input is invalid*)
+	GenItemColl_STR_INIT : STRING[10] := '{"value":'; (*Holds the initial portion of the ItemCollection string formatting*)
+	GenItemColl_STR_MIDDLE : STRING[10] := ',"text":'; (*Holds the middle portion of the ItemCollection string formatting*)
+	GenItemColl_STR_END : STRING[5] := '}'; (*Holds the end portion of the ItemCollection string formatting*)
+	GenItemColl_PARAM_CONTINUOUS : UINT := 1; (*Sets the FUB to continuous operation mode (default)*)
+	GenItemColl_PARAM_HALTING : UINT := 2; (*Sets the FUB to instance oeperation mode*)
 	GenItemColl_ERR_KEY : UINT := 35900; (*The key FUB input is invalid*)
+	GenItemColl_ERR_VALUE : UINT := 35901; (*The value FUB input is invalid*)
+	GenItemColl_ERR_MODE : UINT := 35902; (*The selected mode is invalid. Check the FUB mode input.*)
 END_VAR
