@@ -1,5 +1,5 @@
 
-# V0.2.0 MVAssist library readme file
+# V0.3.0 MVAssist library readme
 
 The MVAssist library is meant to be a collection of useful functions and function blocks that assist with the development of B&R mappview Visualizations.  
 
@@ -10,21 +10,36 @@ The project is configured for a mappView visualization. The default address for 
 ## Function blocks:
 
 ###  **GenerateItemCollection**
-*Description:*  
+#### *Description:*  
 This function block generates a key/value pair in the itemCollection format.  
 ItemCollection is a data type that expects an array of strings in a specific text format. Each array element has two sub-elments, a key and a value. The key is the text that is displayed by the widget, and the value is the value the widget takes when that element is selected.This format is used to populate several mappView widgets including DropDownBox. 
 
-*Interface:*  
-| I/O      | Parameter | Data Type | Description |
-| -----------  | ----------- | ----------- | ----------- |
-| IN  | enable | BOOL        | The function block is active as long as this input is set|
-| IN  | key    | STRING[80]  | Text displayed in end widget |
-| IN  | value  | STRING[80]  | selectedValue in end widget |
-| OUT | keyValuePair | STRING[255] | Key/Value pair in ItemCollection format |
+#### *Interface:*  
+| NAME          | I/O | Data Type   | Description |
+| ------------- | --- | ----------- | ----------- |
+| enable        | IN  | BOOL        | The function block is active as long as this input is set|
+| pKey          | IN  | UDINT       | Text displayed in end widget. Given as pointer to STRING[35] |
+| pValue        | IN  | UDINT       | Selected value in end widget. Given as pointer to STRING[35] |
+| configuration | IN  | UDINT       | Set the operation mode of the FUB. Set using constants listed below. |
+| status        | OUT | UINT        | Displays status of the function block state machine |
+| keyValuePair  | OUT | STRING[100] | Key/Value pair in ItemCollection format |
 
-*Intended Use:*  
-This function block is intended to be used within a for loop to populate each element of a dataProvider array. The dataProvider array is then bound to the dataProvider property in the desired widget. It will then populate the wiget elements based on the number of array elements in the dataProvider array.
+#### *Constants:*  
+| NAME           | Value  | Description |
+| -------------  | ----------- | ----------- |
+| GenItemColl_STR_INIT  | '{"value":' | Holds the initial portion of the ItemCollection string formatting |
+| GenItemColl_STR_MIDDLE | ',"text":' | Holds the middle portion of the ItemCollection string formatting |
+| GenItemColl_STR_END  | '}'   | Holds the end portion of the ItemCollection string formatting |
+| GenItemColl_PARAM_CONTINUOUS  | 1   | Sets the FUB to continuous operation mode (default) |
+| GenItemColl_PARAM_HALTING         | 2        | Sets the FUB to halting operation mode |
+| GenItemColl_ERR_KEY   | 35900 | The key FUB input is invalid - check the input to key |
+| GenItemColl_ERR_VALUE   | 35901 | The key FUB input is invalid - check the input to value |
+| GenItemColl_ERR_MODE   | S35902 | Selected Mode is invalid - check configuration input |
 
 
+#### *Intended Use: Continuous Mode*  
+Continuous is intended to be used iteratively to populate each element of a DataProvider array. Each element of a DataProvider array is a string with specific formatting requirements between the key/value pair. in continuous mode, the GenerateItemCollection FUB must be called once for every element of the DataProvider array. Continuous mode will continuously write the updated itemCollection string to its DataProvider output and indicate status ERR_FUB_BUSY (65535).
 
+#### *Intended Use: Halting Mode*  
+Halting mode is intended to be used to overwrite single elements of DataProvider arrays. Halting mode will not continuously write to the DataProvider output. It will write once, then set the status to ERR_OK (0). The enable input must then be cycled from 1 to 0, then 0 to 1 to write another value to the DataProvider output.
 

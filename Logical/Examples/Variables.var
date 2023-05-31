@@ -1,0 +1,10 @@
+VAR
+	DataProvider : ARRAY[0..2] OF STRING[100];
+	keys : ARRAY[0..2] OF STRING[35] := ['Key 0','Key 1','Key 2'];
+	values : ARRAY[0..2] OF STRING[35] := ['Value 0','Value 1','Value 2'];
+	GenerateItemCollection_0 : GenerateItemCollection;
+	i : USINT := 0;
+	start : BOOL;
+	mode : USINT := 0; (*1 = Continuous, 2 = Halting*)
+	HaltingState : HaltingState_enum;
+END_VAR

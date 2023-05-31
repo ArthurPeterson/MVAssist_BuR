@@ -4,23 +4,94 @@ key is the string displayed on the mappView widget and value is the data assigne
 
 FUNCTION_BLOCK GenerateItemCollection
 	
-	IF enable THEN
+	//=========== Error Handling ===========\\
+	//Sends FUB to the error state if any of the error conditions are met
+//	
+//	//Check to make sure that the data for the key input is the right length (expecting UDINT pointer to STRING[35])
+//	IF NOT(SIZEOF(GenItemColl_DEFAULT_STR_SIZE) = SIZEOF(pKey)) THEN
+//		status := GenItemColl_ERR_KEY;
+//		state := GenItemColl_STATE_ERROR;
+//	END_IF;
+//	
+//	//Check to make sure that the data for the value input is the right length (expecting UDINT pointer to STRING[35])
+//	IF NOT (SIZEOF(GenItemColl_DEFAULT_STR_SIZE) = SIZEOF(pValue)) THEN
+//		status := GenItemColl_ERR_VALUE;
+//		state := GenItemColl_STATE_ERROR;
+//	END_IF;
+//	
+	
+	IF NOT((configuration = GenItemColl_PARAM_CONTINUOUS) OR (configuration = GenItemColl_PARAM_HALTING)) THEN
+		status 	:=  GenItemColl_ERR_MODE;
+		state 	:= GenItemColl_STATE_ERROR;
+	END_IF;
+			
+	
+	////=========== Main state machine ===========\\
+	CASE state OF
+		GenItemColl_STATE_WAIT:
+			
+			//Set status to not enabled - Value = 65534
+			status := ERR_FUB_ENABLE_FALSE;
+			
+			IF enable THEN
+				state := GenItemColl_STATE_RUN;
+			END_IF;
+			
+			
+		GenItemColl_STATE_RUN:
+			
+			//Set status to FUB working - Value = 65535
+			status := ERR_FUB_BUSY;
+			
+			
 			//Sets the first portion of the DataProvider String {"value":"
-			keyValuePair := '{"value":"';
+			brsstrcpy(ADR(keyValuePair), ADR(GenItemColl_STR_INIT));
 			
 			//Concatenates the value input onto the first portion of the DataProvider string
-			brsstrcat(ADR(keyValuePair), ADR(value));
+			brsstrcat(ADR(keyValuePair), pValue);
 			
 			//Concatenates the string ","text":" to the end of the DataProvider string
-			brsstrcat(ADR(keyValuePair), ADR('","text":"'));
+			brsstrcat(ADR(keyValuePair), ADR(GenItemColl_STR_MIDDLE));
 		
 			//Concatenates the text FUB input onto the first portion of the DataProvider string
-			brsstrcat(ADR(keyValuePair), ADR(key));
+			brsstrcat(ADR(keyValuePair), pKey);
 			
-			//Concatenate the string '"}' to the end of the DataProvider string
-			brsstrcat(ADR(keyValuePair), ADR('"}'));
-	END_IF;
+			//Concatenate the ending string to the end of the DataProvider string
+			brsstrcat(ADR(keyValuePair), ADR(GenItemColl_STR_END));
+			
+			//Move to done state once completed (if halting mode is set)
+			IF (configuration = GenItemColl_PARAM_HALTING) THEN
+				state := GenItemColl_STATE_DONE;
+			END_IF;
+			
+			//If Fub is disabled, hold in the wait state
+			IF NOT enable THEN
+				state := GenItemColl_STATE_WAIT;
+			END_IF;
+
+		
+		//State the fub goes into when it has completed successfully
+		GenItemColl_STATE_DONE:
+		  
+			//Set status to no error - Value = 0
+			status := ERR_OK;
+
+			//If Fub is disabled, hold in the wait state
+			IF NOT enable THEN
+				state := GenItemColl_STATE_WAIT;
+			END_IF;
+
+		//State the FUB goes into when there is an error
+		GenItemColl_STATE_ERROR:
 	
+			//If Fub is disabled, hold in the wait state
+			IF NOT enable THEN
+				state := GenItemColl_STATE_WAIT;
+			END_IF;
+
+	END_CASE;
+	
+
 		
 END_FUNCTION_BLOCK
 
