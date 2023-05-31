@@ -1,5 +1,5 @@
 
-# V0.2.0 MVAssist library readme
+# V0.3.0 MVAssist library readme
 
 The MVAssist library is meant to be a collection of useful functions and function blocks that assist with the development of B&R mappview Visualizations.  
 
