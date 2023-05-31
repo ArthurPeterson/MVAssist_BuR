@@ -1,7 +1,6 @@
 (*=========== GenerateItemCollection Constants =========== *)
 (*GenItemColl is short for Generate Item Collection*)
 VAR CONSTANT
-	GenItemColl_DEFAULT_STR_SIZE : STRING[35] := ''; (*Size of of this variable is the size of the default string input to the fubs*)
 	GenItemColl_STR_INIT : STRING[10] := '{"value":'; (*Holds the initial portion of the ItemCollection string formatting*)
 	GenItemColl_STR_MIDDLE : STRING[10] := ',"text":'; (*Holds the middle portion of the ItemCollection string formatting*)
 	GenItemColl_STR_END : STRING[5] := '}'; (*Holds the end portion of the ItemCollection string formatting*)

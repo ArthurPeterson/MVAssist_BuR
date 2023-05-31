@@ -1,5 +1,5 @@
 
-# V0.2.0 MVAssist library readme file
+# V0.2.0 MVAssist library readme
 
 The MVAssist library is meant to be a collection of useful functions and function blocks that assist with the development of B&R mappview Visualizations.  
 
@@ -20,9 +20,21 @@ ItemCollection is a data type that expects an array of strings in a specific tex
 | enable        | IN  | BOOL        | The function block is active as long as this input is set|
 | pKey          | IN  | UDINT       | Text displayed in end widget. Given as pointer to STRING[35] |
 | pValue        | IN  | UDINT       | Selected value in end widget. Given as pointer to STRING[35] |
-| configuration | IN  | UDINT       | Set the operation mode of the FUB |
+| configuration | IN  | UDINT       | Set the operation mode of the FUB. Set using constants listed below. |
 | status        | OUT | UINT        | Displays status of the function block state machine |
 | keyValuePair  | OUT | STRING[100] | Key/Value pair in ItemCollection format |
+
+#### *Constants:*  
+| NAME           | Value  | Description |
+| -------------  | ----------- | ----------- |
+| GenItemColl_STR_INIT  | '{"value":' | Holds the initial portion of the ItemCollection string formatting |
+| GenItemColl_STR_MIDDLE | ',"text":' | Holds the middle portion of the ItemCollection string formatting |
+| GenItemColl_STR_END  | '}'   | Holds the end portion of the ItemCollection string formatting |
+| GenItemColl_PARAM_CONTINUOUS  | 1   | Sets the FUB to continuous operation mode (default) |
+| GenItemColl_PARAM_HALTING         | 2        | Sets the FUB to halting operation mode |
+| GenItemColl_ERR_KEY   | 35900 | The key FUB input is invalid - check the input to key |
+| GenItemColl_ERR_VALUE   | 35901 | The key FUB input is invalid - check the input to value |
+| GenItemColl_ERR_MODE   | S35902 | Selected Mode is invalid - check configuration input |
 
 
 #### *Intended Use: Continuous Mode*  

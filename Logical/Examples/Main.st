@@ -62,6 +62,7 @@ PROGRAM _CYCLIC
 				
 			
 			HALTING_STATE_ENABLE:
+				
 			
 				//Assign the keys and values to the FUB inputs
 				GenerateItemCollection_0.pKey := ADR(keys[i]);
